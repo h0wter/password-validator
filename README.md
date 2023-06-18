@@ -12,7 +12,7 @@ The application allows you to check the strength of the password. Depending on t
 
 ## Examples
 
-<img src="./src/assets/empty-field..png">
+<img src="./src/assets/empty-field.png">
 <img src="./src/assets/one-type.png">
 <img src="./src/assets/two-types.png">
 <img src="./src/assets/three-types.png">
