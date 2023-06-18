@@ -1,4 +1,10 @@
 # Password Validator
+<p>
+  <img alt="html5" src="https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white" />
+  <img alt="Angular" src="https://img.shields.io/badge/-Angular-CB3837?style=flat-square&logo=angular&logoColor=white" />
+  <img alt="TypeScript" src="https://img.shields.io/badge/-TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white" />
+  <img alt="Tailwind CSS" src="https://img.shields.io/badge/-Tailwind-007ACC?style=flat-square&logo=tailwindcss&logoColor=white" />
+</p>
 Deployed on [Vercel](https://password-validator-h0wter.vercel.app/)
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.0.
 
