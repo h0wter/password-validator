@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { passwordStrengthConfig } from './password-strength.config';
 import { PasswordValidatorService } from 'src/app/services/password-validator.service';
-
-type passwordStrengthType = 'empty' | 'easy' | 'short' | 'medium' | 'strong';
+import {
+  PasswordStrengthType,
+  PositionType,
+} from 'src/app/types/password-types';
 
 @Component({
   selector: 'app-password-strength',
@@ -10,14 +12,14 @@ type passwordStrengthType = 'empty' | 'easy' | 'short' | 'medium' | 'strong';
 })
 export class PasswordStrengthComponent {
   private _password = '';
-  passwordStrength: passwordStrengthType = 'empty';
+  private _passwordService = inject(PasswordValidatorService);
+  private _passwordStrength: PasswordStrengthType = 'empty';
+  labels: PositionType[] = ['left', 'middle', 'right'];
   isVisible = false;
-
-  constructor(private passwordService: PasswordValidatorService) {}
 
   set password(value: string) {
     this._password = value;
-    this.passwordStrength = this.passwordService.validate(this._password);
+    this._passwordStrength = this._passwordService.validate(this._password);
   }
 
   togglePasswordVisible(): void {
@@ -25,6 +27,6 @@ export class PasswordStrengthComponent {
   }
 
   getColorClass(position: 'left' | 'middle' | 'right'): string {
-    return passwordStrengthConfig[position][this.passwordStrength];
+    return passwordStrengthConfig[position][this._passwordStrength];
   }
 }
