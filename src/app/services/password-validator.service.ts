@@ -1,18 +1,11 @@
 import { Injectable } from '@angular/core';
-
-interface Types {
-  hasDigits?: boolean;
-  hasLetters?: boolean;
-  hasSymbols?: boolean;
-}
-
-type passwordStrengthType = 'empty' | 'easy' | 'short' | 'medium' | 'strong';
+import { CharTypes, PasswordStrengthType } from '../types/password-types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PasswordValidatorService {
-  validate(value: string): passwordStrengthType {
+  validate(value: string): PasswordStrengthType {
     const password = value.trim();
     const typesCount = this.typesCount(password);
 
@@ -30,7 +23,7 @@ export class PasswordValidatorService {
   }
 
   private typesCount(password: string): number {
-    const types: Types = {};
+    const types: CharTypes = {};
 
     for (let char of password) {
       if (this.isDigit(char)) {
