@@ -1,70 +1,43 @@
-import { Component } from '@angular/core';
-import { passwordStrengthConfig } from './password-strength.config';
-
-interface Types {
-  hasDigits?: boolean;
-  hasLetters?: boolean;
-  hasSymbols?: boolean;
-}
-
-type passwordStrengthType = 'empty' | 'easy' | 'short' | 'medium' | 'strong';
+import { Component, inject } from '@angular/core';
+import { PasswordValidatorService } from 'src/app/services/password-validator.service';
+import { PasswordStrengthType } from 'src/app/types/password-types';
+import { IndicatorColorsService } from 'src/app/services/indicator-colors.service';
 
 @Component({
   selector: 'app-password-strength',
   templateUrl: './password-strength.component.html',
 })
 export class PasswordStrengthComponent {
-  password = '';
-  passwordStrength: passwordStrengthType = 'empty';
-  isVisible = false;
+  private _labelsCount = 5;
+  private _passwordService = inject(PasswordValidatorService);
+  private _password = '';
+  private _passwordStrength: PasswordStrengthType = 'empty';
+  colorsService = inject(IndicatorColorsService);
+  labelsIndexArray = this.getIndexArray();
 
-  private typesCount(password: string): number {
-    const types: Types = {};
-
-    for (let char of password) {
-      if (this.isDigit(char)) {
-        types.hasDigits = true;
-      } else if (this.isLetter(char)) {
-        types.hasLetters = true;
-      } else {
-        types.hasSymbols = true;
-      }
-    }
-
-    const typesLength = Object.keys(types).length;
-    return typesLength;
+  set password(value: string) {
+    this._password = value;
+    this._passwordStrength = this._passwordService.validate(
+      this._password,
+      this.labelsIndexArray.length
+    );
   }
 
-  toggleVisible(): void {
-    this.isVisible = !this.isVisible;
+  getColorClass() {
+    return this.colorsService.getColorsArray(this._passwordStrength);
   }
 
-  validatePassword() {
-    const password = this.password.trim();
-    const typesCount = this.typesCount(password);
-
-    if (password === '') {
-      this.passwordStrength = 'empty';
-    } else if (password.length < 8) {
-      this.passwordStrength = 'short';
-    } else if (typesCount === 1) {
-      this.passwordStrength = 'easy';
-    } else if (typesCount === 2) {
-      this.passwordStrength = 'medium';
+  switchLabelsMode() {
+    if (this._labelsCount === 3) {
+      this._labelsCount = 5;
+      this.labelsIndexArray = this.getIndexArray();
     } else {
-      this.passwordStrength = 'strong';
+      this._labelsCount = 3;
+      this.labelsIndexArray = this.getIndexArray();
     }
   }
 
-  isDigit(char: string): boolean {
-    return /\d/.test(char);
-  }
-
-  isLetter(char: string): boolean {
-    return /[a-zA-Z]/.test(char);
-  }
-
-  getColorClass(position: 'left' | 'middle' | 'right'): string {
-    return passwordStrengthConfig[position][this.passwordStrength];
+  getIndexArray() {
+    return Array.from({ length: this._labelsCount }, (_, index) => index);
   }
 }
