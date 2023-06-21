@@ -6,7 +6,7 @@ const colors = {
   red: 'bg-red-600',
   yellow: 'bg-yellow-500',
   green: 'bg-green-700',
-  blue: 'bg-blue-700',
+  blue: 'bg-blue-500',
 };
 
 const colorArrays = {
