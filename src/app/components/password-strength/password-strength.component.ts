@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PasswordValidatorService } from 'src/app/services/password-validator.service';
 import { PasswordStrengthType } from 'src/app/types/password-types';
 import { IndicatorColorsService } from 'src/app/services/indicator-colors.service';
@@ -8,16 +8,12 @@ import { IndicatorColorsService } from 'src/app/services/indicator-colors.servic
   templateUrl: './password-strength.component.html',
 })
 export class PasswordStrengthComponent {
-  private labelsCount = 3;
+  private _labelsCount = 5;
   private _passwordService = inject(PasswordValidatorService);
   private _password = '';
   private _passwordStrength: PasswordStrengthType = 'empty';
   colorsService = inject(IndicatorColorsService);
-  labelsIndexArray = Array.from(
-    { length: this.labelsCount },
-    (_, index) => index
-  );
-  isVisible = false;
+  labelsIndexArray = this.getIndexArray();
 
   set password(value: string) {
     this._password = value;
@@ -27,11 +23,21 @@ export class PasswordStrengthComponent {
     );
   }
 
-  togglePasswordVisible(): void {
-    this.isVisible = !this.isVisible;
-  }
-
   getColorClass() {
     return this.colorsService.getColorsArray(this._passwordStrength);
+  }
+
+  switchLabelsMode() {
+    if (this._labelsCount === 3) {
+      this._labelsCount = 5;
+      this.labelsIndexArray = this.getIndexArray();
+    } else {
+      this._labelsCount = 3;
+      this.labelsIndexArray = this.getIndexArray();
+    }
+  }
+
+  getIndexArray() {
+    return Array.from({ length: this._labelsCount }, (_, index) => index);
   }
 }
