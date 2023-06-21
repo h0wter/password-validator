@@ -6,9 +6,10 @@ export interface CharTypes {
 
 export type PasswordStrengthType =
   | 'empty'
-  | 'easy'
+  | 'veryShort'
   | 'short'
+  | 'easy'
   | 'medium'
-  | 'strong';
-
-export type PositionType = 'left' | 'middle' | 'right';
+  | 'strong'
+  | 'veryStrong'
+  | 'extremelyStrong';
